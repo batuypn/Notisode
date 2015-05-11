@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 
 import edu.ozyegin.notisode.R;
-import edu.ozyegin.notisode.listeners.OnShowCardClickListener;
 import edu.ozyegin.notisode.objects.Show;
 import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;
 import it.gmariotti.cardslib.library.extra.staggeredgrid.internal.CardGridStaggeredArrayAdapter;
@@ -47,6 +47,13 @@ public class PopularShowsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.layout_staggered_grid, container, false);
         new HttpRequestTask().execute();
         return rootView;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, Show[]> {
@@ -121,7 +128,13 @@ public class PopularShowsFragment extends Fragment {
 //                                .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions)
                                 .build();
 
-                mCard.setOnClickListener(new OnShowCardClickListener(show));
+                mCard.setOnClickListener(new Card.OnCardClickListener() {
+                    @Override
+                    public void onClick(Card card, View view) {
+                        ShowFragment showFragment = new ShowFragment();
+                        replaceFragment(showFragment);
+                    }
+                });
 
                 cards.add(mCard);
                 mCardArrayAdapter.notifyDataSetChanged();
@@ -137,8 +150,9 @@ public class PopularShowsFragment extends Fragment {
                 staggeredView.setAdapter(mCardArrayAdapter);
             }
 
-
         }
 
     }
+
+
 }

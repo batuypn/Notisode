@@ -2,6 +2,7 @@ package edu.ozyegin.notisode.listeners;
 
 import android.view.View;
 
+import edu.ozyegin.notisode.fragments.ShowFragment;
 import edu.ozyegin.notisode.objects.Show;
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -17,6 +18,7 @@ public class OnShowCardClickListener implements Card.OnCardClickListener {
 
     @Override
     public void onClick(Card card, View view) {
+        ShowFragment showFragment = new ShowFragment();
 
     }
 }

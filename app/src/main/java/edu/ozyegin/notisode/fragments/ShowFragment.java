@@ -1,5 +1,8 @@
 package edu.ozyegin.notisode.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.text.DecimalFormat;
 
 import edu.ozyegin.notisode.R;
 import edu.ozyegin.notisode.objects.Show;
@@ -19,8 +27,9 @@ public class ShowFragment extends Fragment {
     private View rootView;
     private ImageView iv_poster;
     private TextView tv_header;
-
+    private TextView tv_rating;
     private Show show;
+    DecimalFormat df = new DecimalFormat("#.00");
 
     public ShowFragment() {
     }
@@ -32,14 +41,52 @@ public class ShowFragment extends Fragment {
 
         iv_poster = (ImageView) rootView.findViewById(R.id.iv_poster);
         tv_header = (TextView) rootView.findViewById(R.id.tv_header);
+        tv_rating = (TextView) rootView.findViewById(R.id.tv_rating);
 
         if (getArguments() != null) {
             this.show = (Show) getArguments().getSerializable("show");
         }
+        Picasso.with(getActivity()).setIndicatorsEnabled(false);
+        Picasso.with(getActivity()).load(show.getImages().getClearart().getFull()).into(iv_poster,new Callback() {
+            @Override
+            public void onSuccess() {
+                tv_header.setText(show.getOverview());
+                tv_rating.setText(df.format(show.getRating())+"/10");
 
-        //fetch data from show
-        //TODO
+                Bitmap bitmap;
+                bitmap = ((BitmapDrawable)iv_poster.getDrawable()).getBitmap();
+                int redBucket = 0;
+                int greenBucket = 0;
+                int blueBucket = 0;
+                int pixelCount = 0;
+
+                for (int y = 0; y < bitmap.getHeight(); y++)
+                {
+                    for (int x = 0; x < bitmap.getWidth(); x++)
+                    {
+                        int c = bitmap.getPixel(x, y);
+
+                        pixelCount++;
+                        redBucket += Color.red(c);
+                        greenBucket += Color.green(c);
+                        blueBucket += Color.blue(c);
+                        // does alpha matter?
+                    }
+                }
+
+                int averageColor = Color.rgb(redBucket / pixelCount,greenBucket / pixelCount,blueBucket / pixelCount);
+                tv_header.setBackgroundColor(averageColor);
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
 
         return rootView;
+
     }
 }

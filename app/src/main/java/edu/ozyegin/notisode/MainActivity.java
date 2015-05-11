@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
+
 import edu.ozyegin.notisode.listeners.OnShowCardClickListener;
 import edu.ozyegin.notisode.objects.Show;
 import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;

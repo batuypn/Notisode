@@ -33,6 +33,7 @@ import it.gmariotti.cardslib.library.extra.staggeredgrid.view.CardGridStaggeredV
 import it.gmariotti.cardslib.library.internal.Card;
 
 
+
 public class MainActivity extends ActionBarActivity {
 
     @Override

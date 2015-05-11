@@ -117,7 +117,7 @@ public class PopularShowsFragment extends Fragment {
                                     @Override
                                     public void setupInnerViewElements(ViewGroup parent, View viewImage) {
 
-                                        Picasso.with(getActivity()).setIndicatorsEnabled(true);  //only for debug tests
+                                        Picasso.with(getActivity()).setIndicatorsEnabled(false);  //only for debug tests
                                         Picasso.with(getActivity())
                                                 .load(show.getImages().getPoster().getThumb())
                                                 .error(R.drawable.card_undo)

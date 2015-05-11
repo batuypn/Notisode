@@ -17,6 +17,7 @@
         android:id="@+id/carddemo_extras_grid_stag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
         card:column_count_landscape="2"
         card:column_count_portrait="2"
         card:grid_paddingLeft="8dp"

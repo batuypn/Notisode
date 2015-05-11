@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.ozyegin.notisode.R;
+import edu.ozyegin.notisode.objects.Show;
 
 /**
  * Created by Batuhan on 11.5.2015.
@@ -18,6 +19,8 @@ public class ShowFragment extends Fragment {
     private View rootView;
     private ImageView iv_poster;
     private TextView tv_header;
+
+    private Show show;
 
     public ShowFragment() {
     }
@@ -29,6 +32,13 @@ public class ShowFragment extends Fragment {
 
         iv_poster = (ImageView) rootView.findViewById(R.id.iv_poster);
         tv_header = (TextView) rootView.findViewById(R.id.tv_header);
+
+        if (getArguments() != null) {
+            this.show = (Show) getArguments().getSerializable("show");
+        }
+
+        //fetch data from show
+        //TODO
 
         return rootView;
     }

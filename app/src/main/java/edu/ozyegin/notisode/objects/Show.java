@@ -2,11 +2,13 @@ package edu.ozyegin.notisode.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 /**
  * Created by Batuhan on 27.4.2015.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Show {
+public class Show implements Serializable {
     private String title;
     private int year;
     private IDs ids;

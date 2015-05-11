@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -128,9 +129,11 @@ public class PopularShowsFragment extends Fragment {
 //                                .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions)
                                 .build();
 
+                mCard.setClickable(true);
                 mCard.setOnClickListener(new Card.OnCardClickListener() {
                     @Override
                     public void onClick(Card card, View view) {
+                        Toast.makeText(getActivity(), "aa", Toast.LENGTH_SHORT).show();
                         ShowFragment showFragment = new ShowFragment();
                         replaceFragment(showFragment);
                     }

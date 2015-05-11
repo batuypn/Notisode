@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Card visible layout -->
+    <it.gmariotti.cardslib.library.view.ForegroundLinearLayout
+        android:id="@+id/card_main_layout"
+        style="@style/card.main_layout_foreground.kitkat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <it.gmariotti.cardslib.demo.extras.staggered.DynamicHeightPicassoCardThumbnailView
+                android:id="@+id/card_thumbnail_layout"
+                style="@style/card_thumbnail_outer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingTop="0dp"
+                card:card_thumbnail_layout_resourceID="@layout/carddemo_extras_staggered_thumbnail_layout" />
+
+
+            <!-- Main Content View -->
+            <FrameLayout
+                android:id="@+id/card_main_content_layout"
+                style="@style/card.content_outer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </it.gmariotti.cardslib.library.view.ForegroundLinearLayout>
+
+    <!-- Compound view for Shadow
+           If you want to customize this element use attr card:card_shadow_layout_resourceID -->
+    <it.gmariotti.cardslib.library.view.component.CardShadowView
+        android:id="@+id/card_shadow_layout"
+        style="@style/card.shadow_outer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

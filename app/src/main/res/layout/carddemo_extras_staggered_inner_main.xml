@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:gravity="center_vertical"
+        android:singleLine="true"
         android:textColor="@color/demoextra_card_background_color2" />
 
     <TextView
@@ -26,6 +27,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:gravity="center_vertical"
+        android:singleLine="true"
         android:textColor="@color/demo_card_staggered_subtitle" />
 
 </LinearLayout>

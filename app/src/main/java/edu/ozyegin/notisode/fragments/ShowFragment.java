@@ -1,7 +1,6 @@
 package edu.ozyegin.notisode.fragments;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Layout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -31,6 +31,7 @@ import edu.ozyegin.notisode.objects.Show;
  * Created by Batuhan on 11.5.2015.
  */
 public class ShowFragment extends Fragment {
+    DecimalFormat df = new DecimalFormat("#.00");
     private View rootView;
     private ImageView iv_poster;
     private TextView tv_header;
@@ -38,7 +39,6 @@ public class ShowFragment extends Fragment {
     private RelativeLayout lo_background;
     private Show show;
     private MaterialViewPager mViewPager;
-    DecimalFormat df = new DecimalFormat("#.00");
     private ImageView imageView;
     public ShowFragment() {
     }
@@ -76,7 +76,7 @@ public class ShowFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return 1;
+                return 3;
             }
 
             @Override
@@ -90,9 +90,19 @@ public class ShowFragment extends Fragment {
             }
 
 
-
         });
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
 //        iv_poster = (ImageView) rootView.findViewById(R.id.iv_poster);
 //        tv_header = (TextView) rootView.findViewById(R.id.tv_header);

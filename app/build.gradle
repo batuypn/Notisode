@@ -41,4 +41,8 @@ dependencies {
     compile 'com.github.gabrielemariotti.cards:cardslib-extra-staggeredgrid:2.0.1'
     //load image
     compile 'com.squareup.picasso:picasso:2.5.2'
+    //hatirlama
+    compile ('com.github.florent37:materialviewpager:1.0.3.2@aar'){
+        transitive = true
+    }
 }

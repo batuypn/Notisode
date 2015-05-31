@@ -3,8 +3,4 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
-    <string name="trakt_api_version">2</string>
-    <string name="client_id">11d0edabd4fb701a8ba985579bf785fe29d6b332bbe529111080fe55d31eff35</string>
-    <string name="client_secret">62248977e9f77092332caf3a72f0a628fac3a31983ba58efbbb7291775c7908e</string>
 </resources>

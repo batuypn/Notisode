@@ -1,5 +1,7 @@
 package edu.ozyegin.notisode.objects;
 
+import android.support.v7.graphics.Palette;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -18,6 +20,30 @@ public class Show implements Serializable {
     private String[] genres;
     private int aired_episodes;
     private Images images;
+    private Airs airs;
+    private String network;
+    private int runtime;
+    transient private Palette.Swatch swatch;
+
+    public Palette.Swatch getSwatch() {
+        return swatch;
+    }
+
+    public void setSwatch(Palette.Swatch swatch) {
+        this.swatch = swatch;
+    }
+
+    public String getNetwork() {
+        return network;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public Airs getAirs() {
+        return airs;
+    }
 
     public int getAired_episodes() {
         return aired_episodes;
@@ -53,5 +79,9 @@ public class Show implements Serializable {
 
     public String[] getGenres() {
         return genres;
+    }
+
+    public class Airs implements Serializable {
+        public String day, time, timezone;
     }
 }

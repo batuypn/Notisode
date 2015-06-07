@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
         <!--<item name="android:colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="android:textColorPrimary">@color/TextColorPrimary</item>-->
     <!--</style>-->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    <!--<style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme" parent="AppBaseTheme">-->
+
+    <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+    <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
+    <!--<item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>-->
+
+    <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--<item name="windowActionBar">false</item>-->
+    <!--<item name="windowNoTitle">true</item>-->
+
+    <!--&lt;!&ndash; Toolbar Theme / Apply white arrow &ndash;&gt;-->
+    <!--<item name="colorControlNormal">@android:color/white</item>-->
+    <!--<item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>-->
+
+    <!--&lt;!&ndash; Material Theme &ndash;&gt;-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/accent_color</item>-->
+
+    <!--<item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>-->
+    <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
+
+    <!--</style>-->
+
+    <!--<style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">-->
+    <!--&lt;!&ndash; White arrow &ndash;&gt;-->
+    <!--<item name="colorControlNormal">@android:color/white</item>-->
+    <!--</style>-->
+
+    <!--<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">-->
+    <!--<item name="spinBars">true</item>-->
+    <!--<item name="color">@color/drawerArrowColor</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme" parent="MaterialDrawerTheme.TranslucentStatus">
+        <!-- improve animations -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:icon">@color/icons</item>
+        <item name="android:divider">@color/divider</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
-
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
-
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
-
-        <!-- Material Theme -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent_color</item>
-
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
-
-    </style>
-
-    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- White arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-    </style>
-
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@color/drawerArrowColor</item>
+    <style name="AppTheme.DetailActivity" parent="MaterialDrawerTheme.TranslucentStatus">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

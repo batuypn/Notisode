@@ -1,21 +1,26 @@
 package edu.ozyegin.notisode.fragments;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.picasso.Picasso;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,38 +31,95 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.ozyegin.notisode.R;
+import edu.ozyegin.notisode.ShowActivity;
+import edu.ozyegin.notisode.adapters.ShowAdapter;
+import edu.ozyegin.notisode.listeners.OnItemClickListener;
 import edu.ozyegin.notisode.objects.Show;
-import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;
-import it.gmariotti.cardslib.library.extra.staggeredgrid.internal.CardGridStaggeredArrayAdapter;
-import it.gmariotti.cardslib.library.extra.staggeredgrid.view.CardGridStaggeredView;
-import it.gmariotti.cardslib.library.internal.Card;
 
 /**
- * Created by Batuhan on 11.5.2015.
+ * Created by Batuhan on 3.6.2015.
  */
 public class PopularShowsFragment extends Fragment {
-    private View rootView;
+    public static SparseArray<Bitmap> photoCache = new SparseArray<>(1);
+    private RecyclerView mImageRecycler;
+    private ShowAdapter mShowAdapter;
+    private ArrayList<Show> mShows;
+    private ArrayList<Show> mCurrentShows;
+    private OnItemClickListener recyclerRowClickListener = new OnItemClickListener() {
+
+        @Override
+        public void onClick(View v, int position) {
+
+            Show selectedShow = mCurrentShows.get(position);
+
+            Intent showIntent = new Intent(getActivity(), ShowActivity.class);
+            showIntent.putExtra("show", selectedShow);
+            showIntent.putExtra("position", position);
+
+            ImageView coverImage = (ImageView) v.findViewById(R.id.item_image_img);
+            if (coverImage == null) {
+                coverImage = (ImageView) ((View) v.getParent()).findViewById(R.id.item_image_img);
+            }
+
+            if (Build.VERSION.SDK_INT >= 21) {
+                if (coverImage.getParent() != null) {
+                    ((ViewGroup) coverImage.getParent()).setTransitionGroup(false);
+                }
+            }
+
+            if (coverImage != null && coverImage.getDrawable() != null) {
+                Bitmap bitmap = ((BitmapDrawable) coverImage.getDrawable()).getBitmap(); //ew
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    photoCache.put(position, bitmap);
+
+                    // Setup the transition to the detail activity
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), coverImage, "imageCover");
+
+                    ActivityCompat.startActivity(getActivity(), showIntent, options.toBundle());
+                }
+            }
+        }
+    };
 
     public PopularShowsFragment() {
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.layout_staggered_grid, container, false);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        View rootView = inflater.inflate(R.layout.layout_popular_shows, container, false);
+        mImageRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_last_images_recycler);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
+        mImageRecycler.setLayoutManager(gridLayoutManager);
+        mImageRecycler.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+        mShowAdapter = new ShowAdapter();
+        mShowAdapter.setOnItemClickListener(recyclerRowClickListener);
+        mImageRecycler.setAdapter(mShowAdapter);
+
         new HttpRequestTask().execute();
+
         return rootView;
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    /**
+     * a small helper class to update the adapter
+     *
+     * @param shows
+     */
+    private void updateAdapter(ArrayList<Show> shows) {
+        mCurrentShows = shows;
+        mShowAdapter.updateData(mCurrentShows);
+        mImageRecycler.scrollToPosition(0);
     }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, Show[]> {
@@ -86,7 +148,7 @@ public class PopularShowsFragment extends Fragment {
 
                 return shows;
             } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
+                Log.e("PopularShowFragment", e.getMessage(), e);
             }
 
             return null;
@@ -94,73 +156,9 @@ public class PopularShowsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final Show[] shows) {
-
-            //Set the arrayAdapter
-            ArrayList<Card> cards = new ArrayList<Card>();
-
-            CardGridStaggeredArrayAdapter mCardArrayAdapter = new CardGridStaggeredArrayAdapter(getActivity(), cards);
-
-            for (int i = 0; i < shows.length; i++) {
-                final Show show = shows[i];
-                // Set supplemental actions as icon
-//                ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
-//
-//                IconSupplementalAction t1 = new IconSupplementalAction(MainActivity.this, R.id.ic1);
-//                t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
-//                    @Override
-//                    public void onClick(Card card, View view) {
-//                        Toast.makeText(MainActivity.this, "Add to Favorites", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                actions.add(t1);
-                MaterialLargeImageCard mCard =
-                        MaterialLargeImageCard.with(getActivity())
-                                .setTitle(show.getTitle())
-                                .setSubTitle(Integer.toString(show.getYear()) + ", " + show.getGenres()[0])
-                                .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
-                                    @Override
-                                    public void setupInnerViewElements(ViewGroup parent, View viewImage) {
-
-                                        Picasso.with(getActivity()).setIndicatorsEnabled(false);  //only for debug tests
-                                        Picasso.with(getActivity())
-                                                .load(show.getImages().getPoster().getThumb())
-                                                .error(R.drawable.card_undo)
-                                                .into((ImageView) viewImage);
-
-                                    }
-                                })
-//                                .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions)
-                                .build();
-
-                mCard.setClickable(true);
-                mCard.addPartialOnClickListener(Card.CLICK_LISTENER_ALL_VIEW, new Card.OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("show", show);
-                        ShowFragment showFragment = new ShowFragment();
-                        showFragment.setArguments(bundle);
-                        replaceFragment(showFragment);
-                    }
-                });
-
-                cards.add(mCard);
-                mCardArrayAdapter.notifyDataSetChanged();
-            }
-
-
-            //Staggered grid view
-            CardGridStaggeredView staggeredView = (CardGridStaggeredView) rootView.findViewById(R.id.carddemo_extras_grid_stag);
-
-            //Set the empty view
-            staggeredView.setEmptyView(rootView.findViewById(android.R.id.empty));
-            if (staggeredView != null) {
-                staggeredView.setAdapter(mCardArrayAdapter);
-            }
-
+            mShows = new ArrayList<Show>(Arrays.asList(shows));
+            updateAdapter(mShows);
         }
 
     }
-
-
 }

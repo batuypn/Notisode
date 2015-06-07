@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="carddemo_extras_gplay_grid_columnwidth_card">125dp</dimen>
+
+    <dimen name="show_info_header_poster_width">120dp</dimen>
+    <dimen name="show_info_header_poster_height">180dp</dimen>
 </resources>

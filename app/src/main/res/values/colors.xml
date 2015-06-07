@@ -4,7 +4,20 @@
     <color name="demo_card_staggered_subtitle">#66000000</color>
 
     <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
     <color name="TextColorPrimary">#ECEFF1</color>
     <color name="colorBackground">#263238</color>
+
+    <color name="image_without_palette">#1C1D23</color>
+    <color name="text_without_palette">#fff4ebe4</color>
+
+    <color name="primary">#607D8B</color>
+    <color name="primary_dark">#455A64</color>
+    <color name="primary_light">#CFD8DC</color>
+    <color name="accent">#FFC107</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
 
 </resources>
